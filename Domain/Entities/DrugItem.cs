@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Domain.Primitives;
 using Domain.Validators;
+using Domain.Events;
 
 namespace Domain.Entities
 {
@@ -48,6 +49,36 @@ namespace Domain.Entities
         /// <summary>
         /// Количество препарата на складе.
         /// </summary>
-        public int Count { get; private set; }
+        public double Count { get; private set; }
+
+        /// <summary>
+        /// Обновление количества.
+        /// </summary>
+        /// <param name="newCount">Новое количество.</param>
+        public void UpdateCount(double newCount)
+        {
+            var oldCount = Count;
+            Count = newCount;
+
+            var validator = new DrugItemValidator();
+            validator.Validate(this);
+
+            AddDomainEvent(new DrugItemCountUpdatedEvent(Id, DrugId, DrugStoreId, oldCount, newCount));
+        }
+
+        /// <summary>
+        /// Обновление цены.
+        /// </summary>
+        /// <param name="newPrice">Новая цена.</param>
+        public void UpdatePrice(decimal newPrice)
+        {
+            var oldPrice = Cost;
+            Cost = newPrice;
+
+            var validator = new DrugItemValidator();
+            validator.Validate(this);
+
+            AddDomainEvent(new DrugItemPriceUpdatedEvent(Id, DrugId, DrugStoreId, oldPrice, newPrice));
+        }
     }
 }

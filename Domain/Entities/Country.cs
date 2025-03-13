@@ -35,5 +35,23 @@ namespace Domain.Entities
         /// Код страны (например, ISO-код).
         /// </summary>
         public string Code { get; private set; }
+
+        /// <summary>
+        /// Навигационное свойство для связи с препаратами.
+        /// </summary>
+        public ICollection<Drug> Drugs { get; private set; } = new List<Drug>();
+
+        // Навигационное свойство для связи с DrugItem
+        public ICollection<DrugItem> DrugItems { get; private set; } = new List<DrugItem>();
+        public void RemoveDrugItem(DrugItem drugItem)
+        {
+            DrugItems.Remove(drugItem);
+            AddDomainEvent(new DrugItemRemovedEvent(drugItem.Id, drugItem.DrugId, drugItem.DrugStoreId));
+        }
+        public void AddDrugItem(DrugItem drugItem)
+        {
+            DrugItems.Add(drugItem);
+            AddDomainEvent(new DrugItemAddedEvent(drugItem.Id, drugItem.DrugId, drugItem.DrugStoreId, drugItem.Cost, drugItem.Count));
+        }
     }
 }

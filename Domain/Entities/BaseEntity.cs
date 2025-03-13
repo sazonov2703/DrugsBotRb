@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities
+﻿using Domain.Interfaces;
+
+namespace Domain.Entities
 {
     /// <summary>
     /// Базовый класс для всех сущностей домена, обеспечивающий сравнение по идентификатору.
@@ -9,6 +11,8 @@
         /// Уникальный идентификатор сущности.
         /// </summary>
         public Guid Id { get; protected set; }
+
+        private readonly List<IDomainEvent> _domainEvents = [];
 
         /// <summary>
         /// Конструктор по умолчанию, инициализирующий новый уникальный идентификатор.
@@ -67,6 +71,19 @@
         public static bool operator !=(BaseEntity? left, BaseEntity? right)
         {
             return !(left == right);
+        }
+
+        public IReadOnlyList<IDomainEvent> GetDomainEvents()
+        {
+            return _domainEvents;
+        }
+        public void ClearDomainEvents()
+        {
+            _domainEvents.Clear();
+        }
+        protected void AddDomainEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents.Add(domainEvent);
         }
     }
 }

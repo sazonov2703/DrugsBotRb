@@ -42,5 +42,15 @@ namespace Domain.Entities
         /// Код страны производителя.
         /// </summary>
         public string CountryCodeId { get; private set; }
+
+        /// <summary>
+        /// Связь с объектом Country.
+        /// </summary>
+        public Country Country { get; private set; }
+
+        /// <summary>
+        /// Навигационное свойство для связи с DrugItem.
+        /// </summary>
+        public ICollection<DrugItem> DrugItems { get; private set; } = new List<DrugItem>();
     }
 }
