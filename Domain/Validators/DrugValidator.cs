@@ -1,40 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 using Domain.Entities;
-using FluentValidation;
 using Domain.Primitives;
-using System.Globalization;
 
-namespace Domain.Validators
+namespace Domain.Validators;
+
+public sealed class DrugValidator : AbstractValidator<Drug>
 {
-    public class DrugValidator : AbstractValidator<Drug>
+    public DrugValidator(Func<string, bool> countryExistsFunc)
     {
-        public DrugValidator()
-        {
-            RuleFor(d => d.Name)
-                .Length(2, 100).WithMessage(ValidationMessage.LengthMessage)
-                .Matches("^[a-zA-Zа-яА-ЯёЁ ]+$").WithMessage("Имя не может содержать специальные символы.");
+        // Валидация для Namea
+        RuleFor(d => d.Name)
+            .NotEmpty().WithMessage(ValidationMessage.RequiredField)
+            .Length(2, 150).WithMessage(ValidationMessage.LengthField)
+            .Matches(@"^[A-Za-z0-9\s]+$").WithMessage(ValidationMessage.OnlyLettersDigitsAndSpaces);
 
-            RuleFor(d => d.Manufacturer)
-                .Length(2, 100).WithMessage(ValidationMessage.LengthMessage)
-                .Matches("^[a-zA-Zа-яА-ЯёЁ -]+$").WithMessage("Имя может содержать только буквы, пробелы и дефисы.");
-            RuleFor(d => d.CountryCodeId)
-                .Must(IsValidCountryCode).WithMessage("Неверный айди страны.");
-        }
-        private bool IsValidCountryCode(string countryCode)
-        {
-            try
-            {
-                var _ = new RegionInfo(countryCode);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        // Валидация для Manufacturer
+        RuleFor(d => d.Manufacturer)
+            .NotEmpty().WithMessage(ValidationMessage.RequiredField)
+            .Length(2, 100).WithMessage(ValidationMessage.LengthField)
+            .Matches(@"^[A-Za-z\s\-]+$").WithMessage(ValidationMessage.OnlyLettersSpacesAndDashes);
+
+        // Валидация для CountryCodeId
+        RuleFor(d => d.CountryCodeId)
+            .NotEmpty().WithMessage(ValidationMessage.RequiredField)
+            .Length(2).WithMessage(ValidationMessage.ExactLengthField)
+            .Matches("^[A-Z]{2}$").WithMessage(ValidationMessage.OnlyUppercaseLetters)
+            .Must(countryExistsFunc).WithMessage(ValidationMessage.ValidCountryCode);
     }
 }

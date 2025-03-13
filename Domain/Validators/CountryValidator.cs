@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 using Domain.Entities;
 using Domain.Primitives;
-using FluentValidation;
 
-namespace Domain.Validators
+namespace Domain.Validators;
+
+public sealed class CountryValidator : AbstractValidator<Country>
 {
-    public class CountryValidator : AbstractValidator<Country>
-    {
-        public CountryValidator()
-        {
-            RuleFor(c => c.Name)
-                .Length(2, 100).WithMessage(ValidationMessage.LengthMessage)
-                .Matches("^[a-zA-Zа-яА-ЯёЁ ]+$").WithMessage("Имя может содержать только буквы и пробелы.");
+    private static readonly HashSet<string> ValidIsoCodes = ["US", "DE", "FR", "GB", "CA", "IT", "ES", "RU"];
 
-            RuleFor(d => d.Code)
-                .Matches(@"^[A-Z]{2}$").WithMessage("Код страны должен состоять из двух заглавных латинских букв.");
-        }
+    public CountryValidator()
+    {
+        // Валидация для имени
+        RuleFor(c => c.Name)
+            .NotEmpty().WithMessage(ValidationMessage.RequiredField)
+            .Length(2, 100).WithMessage(ValidationMessage.LengthField)
+            .Matches(@"^[A-Za-z\s]+$").WithMessage(ValidationMessage.OnlyLettersAndSpaces);
+
+        // Валидация для кода
+        RuleFor(c => c.Code)
+            .NotEmpty().WithMessage(ValidationMessage.RequiredField)
+            .Length(2).WithMessage(ValidationMessage.ExactLengthField)
+            .Matches("^[A-Z]{2}$").WithMessage(ValidationMessage.OnlyUppercaseLetters)
+            .Must(code => ValidIsoCodes.Contains(code)).WithMessage(ValidationMessage.ValidCountryCode);
     }
 }

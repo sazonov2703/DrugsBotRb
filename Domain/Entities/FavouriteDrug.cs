@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Domain.Entities;
+﻿namespace Domain.Entities;
 
 /// <summary>
 /// Избранный препарат.
@@ -10,6 +8,7 @@ public class FavoriteDrug
     public FavoriteDrug(
         Guid profileId,
         Guid drugId,
+        Profile profile,
         Drug drug,
         Guid? drugStoreId = null,
         DrugStore? drugStore = null)
@@ -17,6 +16,7 @@ public class FavoriteDrug
         ProfileId = profileId;
         DrugId = drugId;
         DrugStoreId = drugStoreId;
+        Profile = profile;
         Drug = drug;
         DrugStore = drugStore;
     }
@@ -36,9 +36,8 @@ public class FavoriteDrug
     /// </summary>
     public Guid? DrugStoreId { get; private set; }
 
-    /// <summary>
-    /// Навигационные свойства
-    /// </summary>
+    // Навигационные свойства
+    public Profile Profile { get; private set; }
     public Drug Drug { get; private set; }
     public DrugStore? DrugStore { get; private set; }
 }

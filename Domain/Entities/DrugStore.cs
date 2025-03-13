@@ -1,48 +1,55 @@
-﻿using Ardalis.GuardClauses;
-using Domain.Primitives;
-using System.Xml.Linq;
-using Domain.ValueObjects;
+﻿using Domain.Events;
 using Domain.Validators;
+using Domain.ValueObjects;
 
-namespace Domain.Entities
+namespace Domain.Entities;
+
+/// <summary>
+/// Аптека
+/// </summary>
+public sealed class DrugStore : BaseEntity<DrugStore>
 {
-    /// <summary>
-    /// Аптека
-    /// </summary>
-    public class DrugStore : BaseEntity
+    public DrugStore(string drugNetwork, int number, Address address)
     {
-        /// <summary>
-        /// Конструктор для инициализации класса с аптекой.
-        /// </summary>
-        /// <param name="drugNetwork">Название аптечной сети. Обязательное поле.</param>
-        /// <param name="number">Номер аптеки. Должно быть больше нуля.</param>
-        /// <param name="address">Адрес аптеки. Обязательное поле.</param>
-        public DrugStore(string drugNetwork, int number, Address address)
-        {
-            DrugNetwork = Guard.Against.NullOrWhiteSpace(drugNetwork, nameof(drugNetwork), ValidationMessage.NullOrWhitespaceMessage);
-            Number = Guard.Against.Negative(number, nameof(number), ValidationMessage.InvalidValueMessage);
-            Address = Guard.Against.Null(address, nameof(address), ValidationMessage.NullOrWhitespaceMessage);
+        DrugNetwork = drugNetwork;
+        Number = number;
+        Address = address;
 
-            /// <summary>
-            /// Валидация переданых параметров
-            /// </summary>
-            var validator = new DrugStoreValidator();
-            validator.Validate(this);
-        }
-
-        /// <summary>
-        /// Сеть аптек, к которой принадлежит аптека.
-        /// </summary>
-        public string DrugNetwork { get; private set; }
-        
-        /// <summary>
-        /// Номер аптеки в сети.
-        /// </summary>
-        public int Number { get; private set; }
-        
-        /// <summary>
-        /// Адрес аптеки.
-        /// </summary>
-        public Address Address { get; private set; }
+        // Вызов валидации через базовый класс
+        ValidateEntity(new DrugStoreValidator());
     }
+
+    /// <summary>
+    /// Сеть аптек, к которой принадлежит аптека.
+    /// </summary>
+    public string DrugNetwork { get; private set; }
+
+    /// <summary>
+    /// Номер аптеки в сети.
+    /// </summary>
+    public int Number { get; private set; }
+
+    /// <summary>
+    /// Адрес аптеки.
+    /// </summary>
+    public Address Address { get; private set; }
+
+    // Навигационное свойство для связи с DrugItem
+    public ICollection<DrugItem> DrugItems { get; private set; } = new List<DrugItem>();
+
+    #region Методы
+
+    public void RemoveDrugItem(DrugItem drugItem)
+    {
+        DrugItems.Remove(drugItem);
+        AddDomainEvent(new DrugItemRemovedEvent(drugItem.Id, drugItem.DrugId, drugItem.DrugStoreId));
+    }
+
+    public void AddDrugItem(DrugItem drugItem)
+    {
+        DrugItems.Add(drugItem);
+        AddDomainEvent(new DrugItemAddedEvent(drugItem.Id, drugItem.DrugId, drugItem.DrugStoreId, drugItem.Cost, drugItem.Count));
+    }
+
+    #endregion
 }

@@ -1,27 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Globalization;
-using FluentValidation;
+﻿using FluentValidation;
 using Domain.Entities;
-using Domain.Primitives;
 
-namespace Domain.Validators
+namespace Domain.Validators;
+
+public sealed class DrugItemValidator : AbstractValidator<DrugItem>
 {
-    public class DrugItemValidator : AbstractValidator<DrugItem>
+    public DrugItemValidator()
     {
-        public DrugItemValidator()
-        {
-            RuleFor(di => di.Cost)
-                .GreaterThan(0).WithMessage(ValidationMessage.InvalidValueMessage)
-                .LessThan(9999999).WithMessage(ValidationMessage.InvalidValueMessage)
-                .Must(cost => cost == Math.Round(cost, 2)).WithMessage(ValidationMessage.InvalidValueMessage);
+        // Валидация для Cost (стоимость)
+        RuleFor(d => d.Cost)
+            .GreaterThan(0).WithMessage("Поле {PropertyName} должно быть положительным числом.")
+            .ScalePrecision(2, 18).WithMessage("Поле {PropertyName} должно содержать не более двух знаков после запятой.");
 
-            RuleFor(di => di.Count)
-                .GreaterThanOrEqualTo(0).WithMessage(ValidationMessage.InvalidValueMessage)
-                .LessThanOrEqualTo(10000).WithMessage(ValidationMessage.InvalidValueMessage);
-        }
+        // Валидация для Count (количество)
+        RuleFor(d => d.Count)
+            .GreaterThanOrEqualTo(0).WithMessage("Поле {PropertyName} должно быть неотрицательным числом.")
+            .LessThanOrEqualTo(10_000).WithMessage("Поле {PropertyName} не должно превышать 10 000.");
     }
 }
