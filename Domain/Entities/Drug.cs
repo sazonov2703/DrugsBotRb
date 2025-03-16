@@ -1,4 +1,5 @@
-﻿using Domain.Validators;
+﻿using Domain.Events;
+using Domain.Validators;
 
 namespace Domain.Entities;
 
@@ -16,6 +17,9 @@ public class Drug : BaseEntity<Drug>
 
         // Вызов валидации через базовый класс с использованием переданной функции проверки
         ValidateEntity(new DrugValidator(countryExistsFunc));
+
+        // Выброс ивента создания товара
+        AddDomainEvent(new DrugCreatedEvent(Id, Name, Manufacturer, CountryCodeId, Country, null));
     }
 
     /// <summary>

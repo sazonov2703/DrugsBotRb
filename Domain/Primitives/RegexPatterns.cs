@@ -8,7 +8,7 @@ namespace Domain.Primitives;
 public static class RegexPatterns
 {
     /// <summary>
-    /// Регулярка для валидации почты
+    /// Регулярный паттерн валидации почты
     /// </summary>
     public static readonly Regex EmailRegexPattern = new(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
 }
