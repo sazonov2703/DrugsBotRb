@@ -39,6 +39,22 @@ public sealed class DrugStore : BaseEntity<DrugStore>
 
     #region Методы
 
+    public void Update(string newDrugNetwork, int newNumber, Address newAddress)
+    {
+        string oldDrugNetwork = DrugNetwork;
+        int oldNumber = Number;
+        Address oldAddress = Address;
+        
+        DrugNetwork = newDrugNetwork;
+        Number = newNumber;
+        Address = newAddress;
+
+        // Вызов валидации через базовый класс
+        ValidateEntity(new DrugStoreValidator());
+
+        // Выброс события обновления аптеки
+        AddDomainEvent(new DrugStoreUpdatedEvent(Id, oldDrugNetwork, newDrugNetwork, oldNumber, newNumber, oldAddress, newAddress));
+    }
     public void RemoveDrugItem(DrugItem drugItem)
     {
         DrugItems.Remove(drugItem);

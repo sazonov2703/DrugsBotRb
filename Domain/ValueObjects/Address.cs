@@ -13,17 +13,17 @@ namespace Domain.ValueObjects
         /// <summary>
         /// Конструктор для инициализации адреса.
         /// </summary>
-        /// <param name="city">Город. Обязательное поле.</param>
-        /// <param name="street">Улица. Обязательное поле.</param>
-        /// <param name="house">Номер дома. Обязательное поле.</param>
+        /// <param name="city">Город.</param>
+        /// <param name="street">Улица.</param>
+        /// <param name="house">Номер дома.</param>
         public Address(string city, string street, string house)
         {
-            City = Guard.Against.NullOrWhiteSpace(city, nameof(city), ValidationMessage.NullOrWhitespaceMessage);
-            Street = Guard.Against.NullOrWhiteSpace(street, nameof(street), ValidationMessage.NullOrWhitespaceMessage);
-            House = Guard.Against.NullOrWhiteSpace(house, nameof(house), ValidationMessage.NullOrWhitespaceMessage);
-
-            var validator = new AddressValidator();
-            validator.Validate(this);
+            City = city;
+            Street = street;
+            House = house;
+            
+            // Вызов валидации для адреса
+            ValidateValueObject(new AddressValidator());
         }
         
         /// <summary>

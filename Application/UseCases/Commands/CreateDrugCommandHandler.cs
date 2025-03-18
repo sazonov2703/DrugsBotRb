@@ -24,7 +24,6 @@ namespace Application.UseCases.Commands
             await drugWriteRepository.AddAsync(drug, cancellationToken);
 
             return drug.Id;
-        
         }
     }
 }
