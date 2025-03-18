@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.Repositories.Read;
 using Application.Interfaces.Repositories.Write;
+using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.UseCases.Commands;
@@ -20,7 +21,9 @@ public class UpdateDrugStoreCommandHandler(
         
         var drugStore = drugStores.First();
         
-        drugStore.Update(request.NewDrugNetwork, request.NewNumber, request.NewAddress);
+        var address = new Address(request.City, request.Street, request.House);
+        
+        drugStore.Update(request.NewDrugNetwork, request.NewNumber, address);
 
         await drugStoreWriteRepository.UpdateAsync(drugStore, cancellationToken);
         
