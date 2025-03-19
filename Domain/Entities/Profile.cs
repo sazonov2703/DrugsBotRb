@@ -24,5 +24,5 @@ public sealed class Profile : BaseEntity<Profile>
     public Email? Email { get; private set; }
 
     // Навигационное свойство для связи с FavoriteDrug.
-    public List<FavoriteDrug> FavoriteDrugs { get; private set; } = [];
+    public List<FavoriteDrug> FavoriteDrugs { get; private set; } = new List<FavoriteDrug>();
 }
