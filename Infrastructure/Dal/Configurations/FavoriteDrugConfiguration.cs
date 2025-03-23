@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Dal.Configurations;
 
-public class FavouriteDrugConfiguration : IEntityTypeConfiguration<FavoriteDrug>
+public class FavoriteDrugConfiguration : IEntityTypeConfiguration<FavoriteDrug>
 {
     public void Configure(EntityTypeBuilder<FavoriteDrug> builder)
     {

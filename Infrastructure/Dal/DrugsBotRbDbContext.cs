@@ -19,7 +19,7 @@ public class DrugsBotRbDbContext : DbContext
         modelBuilder.ApplyConfiguration(new DrugConfiguration());
         modelBuilder.ApplyConfiguration(new DrugStoreConfiguration());
         modelBuilder.ApplyConfiguration(new CountryConfiguration());
-        modelBuilder.ApplyConfiguration(new FavouriteDrugConfiguration());
+        modelBuilder.ApplyConfiguration(new FavoriteDrugConfiguration());
         modelBuilder.ApplyConfiguration(new DrugItemConfiguration());
         modelBuilder.ApplyConfiguration(new ProfileConfiguration());
     }
