@@ -5,6 +5,14 @@ namespace Domain.Entities;
 
 public sealed class Profile : BaseEntity<Profile>
 {
+    /// <summary>
+    /// Пустой конструктор для EF core.
+    /// </summary>
+    public Profile()
+    {
+        
+    }
+    
     public Profile(string externalId, Email? email)
     {
         ExternalId = externalId;

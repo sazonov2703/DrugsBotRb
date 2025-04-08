@@ -7,15 +7,18 @@ namespace Domain.Events;
 /// </summary>
 public class DrugUpdatedEvent : IDomainEvent
 {
-    public DrugUpdatedEvent(Guid drugId, string newName, string oldName, string newManufacturer, string oldManufacturer, string newCountryCodeId, string oldCountryCodeId, Country newCountry, Country oldCountry, Func<string, bool> countryExistsFunc)
+    public DrugUpdatedEvent(Guid drugId, string newName, string oldName, 
+        string newManufacturer, string oldManufacturer, Guid newCountryId, 
+        Guid oldCountryId, Country newCountry, Country oldCountry, 
+        Func<string, bool> countryExistsFunc)
     {
         DrugId = drugId;
         NewName = newName;
         OldName = oldName;
         NewManufacturer = newManufacturer;
         OldManufacturer = oldManufacturer;
-        NewCountryCodeId = newCountryCodeId;
-        OldCountryCodeId = oldCountryCodeId;
+        NewCountryId = newCountryId;
+        OldCountryId = oldCountryId;
         NewCountry = newCountry;
         OldCountry = oldCountry;
         UpdatedAt = DateTime.UtcNow;
@@ -25,8 +28,8 @@ public class DrugUpdatedEvent : IDomainEvent
     public string OldName { get; }
     public string NewManufacturer { get; }
     public string OldManufacturer { get; }
-    public string NewCountryCodeId { get; }
-    public string OldCountryCodeId { get; }
+    public Guid NewCountryId { get; }
+    public Guid OldCountryId { get; }
     public Country NewCountry { get; }
     public Country OldCountry { get; }
     public DateTime UpdatedAt { get; }

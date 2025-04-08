@@ -21,10 +21,7 @@ public sealed class DrugValidator : AbstractValidator<Drug>
             .Matches(@"^[A-Za-z\s\-]+$").WithMessage(ValidationMessage.OnlyLettersSpacesAndDashes);
 
         // Валидация для CountryCodeId
-        RuleFor(d => d.CountryCodeId)
-            .NotEmpty().WithMessage(ValidationMessage.RequiredField)
-            .Length(2).WithMessage(ValidationMessage.ExactLengthField)
-            .Matches("^[A-Z]{2}$").WithMessage(ValidationMessage.OnlyUppercaseLetters)
-            .Must(countryExistsFunc).WithMessage(ValidationMessage.ValidCountryCode);
+        RuleFor(d => d.CountryId)
+            .NotEmpty().WithMessage(ValidationMessage.RequiredField);
     }
 }

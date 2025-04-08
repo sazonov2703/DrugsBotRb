@@ -8,18 +8,26 @@ namespace Domain.Entities;
 /// </summary>
 public class Drug : BaseEntity<Drug>
 {
-    public Drug(string name, string manufacturer, string countryCodeId, Country country, Func<string, bool> countryExistsFunc)
+    /// <summary>
+    /// Пустой конструктор для EF core.
+    /// </summary>
+    private Drug()
+    {
+        
+    }
+    
+    public Drug(string name, string manufacturer, Guid countryId, Country country, Func<string, bool> countryExistsFunc)
     {
         Name = name;
         Manufacturer = manufacturer;
-        CountryCodeId = countryCodeId;
+        CountryId = countryId;
         Country = country;
 
         // Вызов валидации через базовый класс с использованием переданной функции проверки
         ValidateEntity(new DrugValidator(countryExistsFunc));
 
         // Выброс ивента создания товара
-        AddDomainEvent(new DrugCreatedEvent(Id, Name, Manufacturer, CountryCodeId, Country,null));
+        AddDomainEvent(new DrugCreatedEvent(Id, Name, Manufacturer, CountryId, Country,null));
     }
 
     /// <summary>
@@ -33,9 +41,9 @@ public class Drug : BaseEntity<Drug>
     public string Manufacturer { get; private set; }
 
     /// <summary>
-    /// Код страны производителя.
+    /// Связь с объектом Country.
     /// </summary>
-    public string CountryCodeId { get; private set; }
+    public Guid CountryId { get; private set; }
 
     /// <summary>
     /// Связь с объектом Country.
@@ -52,28 +60,28 @@ public class Drug : BaseEntity<Drug>
     /// <summary>
     /// Метод для обновления полей в товаре.
     /// </summary>
-    public void Update(string newName, string newManufacturer, string newCountryCodeId, Country newCountry, Func<string, bool> countryExistsFunc)
+    public void Update(string newName, string newManufacturer, Guid newCountryId, Country newCountry, Func<string, bool> countryExistsFunc)
     {
-        if (Name == newName && Manufacturer == newManufacturer && CountryCodeId == CountryCodeId)
+        if (Name == newName && Manufacturer == newManufacturer && CountryId == CountryId)
         {
             return;
         }
         
         string oldName = Name;
         string oldManufacturer = Manufacturer;
-        string oldCountryCodeId = CountryCodeId;
+        Guid oldCountryId = CountryId;
         Country oldCountry = Country;
         
         Name = newName;
         Manufacturer = newManufacturer;
-        CountryCodeId = newCountryCodeId;
+        CountryId = newCountryId;
         Country = newCountry;
 
         // Вызов валидации через базовый класс с использованием переданной функции проверки
         ValidateEntity(new DrugValidator(countryExistsFunc));
 
         // Выброс события обновления препарата
-        AddDomainEvent(new DrugUpdatedEvent(Id, newName, oldName, newManufacturer, oldManufacturer, newCountryCodeId, oldCountryCodeId, newCountry, oldCountry, null));
+        AddDomainEvent(new DrugUpdatedEvent(Id, newName, oldName, newManufacturer, oldManufacturer, newCountryId, oldCountryId, newCountry, oldCountry, null));
     }
 
     #endregion

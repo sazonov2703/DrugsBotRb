@@ -15,11 +15,14 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
         builder.Property(p => p.ExternalId)
             .IsRequired() 
             .HasMaxLength(150) 
-            .HasColumnName(nameof(Profile.ExternalId)); 
+            .HasColumnName(nameof(Profile.ExternalId));
 
-        builder.Property(p => p.Email)
-            .HasMaxLength(50) 
-            .HasColumnName(nameof(Profile.Email)); 
+        builder.OwnsOne(x => x.Email, email =>
+        {
+            email.Property(x => x.Value)
+                .HasMaxLength(50)
+                .HasColumnName(nameof(Profile.Email));
+        });
         
         builder.HasMany(p => p.FavoriteDrugs) 
             .WithOne(f => f.Profile) 

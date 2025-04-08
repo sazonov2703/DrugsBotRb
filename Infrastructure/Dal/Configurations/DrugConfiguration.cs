@@ -24,7 +24,7 @@ public class DrugConfiguration : IEntityTypeConfiguration<Drug>
 
         builder.HasOne(d => d.Country)
             .WithMany(y => y.Drugs)
-            .HasForeignKey(k => k.CountryCodeId)
+            .HasForeignKey(k => k.CountryId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

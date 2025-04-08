@@ -8,6 +8,13 @@ namespace Domain.Entities;
 public class Country : BaseEntity<Country>
 {
     /// <summary>
+    /// Пустой конструктор для EF core.
+    /// </summary>
+    private Country()
+    {
+        
+    }
+    /// <summary>
     /// Конструктор для инициализации страны с названием и кодом.
     /// </summary>
     /// <param name="name">Название страны.</param>

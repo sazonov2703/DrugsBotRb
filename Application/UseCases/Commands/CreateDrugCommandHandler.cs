@@ -19,7 +19,7 @@ namespace Application.UseCases.Commands
                 throw new KeyNotFoundException(message: $"Страна с именем {request.CountryName} не найдена");
             }
 
-            var drug = new Drug(request.Name, request.Manufacturer, countries.First().Code, countries.First(), null);
+            var drug = new Drug(request.Name, request.Manufacturer, countries.First().Id, countries.First(), null);
 
             await drugWriteRepository.AddAsync(drug, cancellationToken);
 

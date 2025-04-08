@@ -8,19 +8,19 @@ namespace Domain.Events
     /// </summary>
     public class DrugCreatedEvent : IDomainEvent
     {
-        public DrugCreatedEvent(Guid drugId, string name, string manufacturer, string countryCodeId, Country country, Func<string, bool> countryExistsFunc)
+        public DrugCreatedEvent(Guid drugId, string name, string manufacturer, Guid countryId, Country country, Func<string, bool> countryExistsFunc)
         {
             DrugId = drugId;
             Name = name;
             Manufacturer = manufacturer;
-            CountryCodeId = countryCodeId;
+            CountryId = countryId;
             Country = country;
             CreatedAt = DateTime.UtcNow;
         }
         public Guid DrugId { get; }
         public string Name { get; }
         public string Manufacturer { get; }
-        public string CountryCodeId { get; }
+        public Guid CountryId { get; }
         public Country Country { get; }
         public DateTime CreatedAt { get; }
     }

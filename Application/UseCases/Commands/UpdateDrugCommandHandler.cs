@@ -26,7 +26,7 @@ public class UpdateDrugCommandHandler(
         
         var drug = drugs.First();
         
-        drug.Update(request.NewName, request.NewManufacturer, countries.First().Code, countries.First(), null);
+        drug.Update(request.NewName, request.NewManufacturer, countries.First().Id, countries.First(), null);
         
         await drugWriteRepository.UpdateAsync(drug, cancellationToken);
         

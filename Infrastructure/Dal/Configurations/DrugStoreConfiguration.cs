@@ -31,11 +31,9 @@ public class DrugStoreConfiguration : IEntityTypeConfiguration<DrugStore>
             address.Property(x => x.City)
                 .IsRequired()
                 .HasMaxLength(150);
-            ;
             address.Property(x => x.House)
                 .IsRequired()
                 .HasMaxLength(150);
-            ;
         });
     }
 }

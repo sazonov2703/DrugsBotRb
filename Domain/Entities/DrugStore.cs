@@ -9,6 +9,14 @@ namespace Domain.Entities;
 /// </summary>
 public sealed class DrugStore : BaseEntity<DrugStore>
 {
+    /// <summary>
+    /// Пустой конструктор для EF core.
+    /// </summary>
+    private DrugStore()
+    {
+        
+    }
+    
     public DrugStore(string drugNetwork, int number, Address address)
     {
         DrugNetwork = drugNetwork;

@@ -5,6 +5,14 @@
 /// </summary>
 public class FavoriteDrug
 {
+    /// <summary>
+    /// Пустой конструктор для EF core.
+    /// </summary>
+    public FavoriteDrug()
+    {
+        
+    }
+    
     public FavoriteDrug(
         Guid profileId,
         Guid drugId,
