@@ -1,117 +1,122 @@
 # DrugsBotRb
 
-**DrugsBotRb** — это сервис, реализующий бизнес-логику онлайн аптеки-агрегатора с использованием принципов чистой архитектуры и предметно-ориентированного проектирования (DDD). Проект разработан на платформе .NET и демонстрирует современные архитектурные подходы к построению расширяемых, модульных приложений.
+**DrugsBotRb** is a service implementing the business logic of an online pharmacy aggregator using a pure computing structure and domain-oriented design (DDD). The project is developed on the .NET platform and modern architectural approaches to building extensible modular applications.
 
 ---
 
-## Особенности
+## Features
 
-- Чистая архитектура с разделением на Domain, Application и Infrastructure слои  
-- CQRS и MediatR для обработки команд и запросов  
-- Поддержка событийной модели (доменные события)  
-- Гибкая, легко тестируемая структура  
-- Интеграция с Telegram Bot API через инфраструктурный слой  
-- Простой запуск и масштабируемость  
+- Clean architecture with separation into Domain, Application and Infrastructure layers
+- CQRS and MediatR for processing commands and requests
+- Event model support (domain events)
+- Flexible, easy to test structure
+- Integration with Telegram Bot API via infrastructure layer
+- Easy launch and scalability
 
 ---
 
-## Структура проекта
+## Project structure
 
-Проект построен по принципам Clean Architecture и включает три ключевых слоя:
+The project is built on the principles of Clean Architecture and includes three key layers:
 
 ### Domain Layer
 
-- Основные бизнес-сущности и логика  
-- Value-объекты, агрегаты, интерфейсы репозиториев  
-- Доменные события  
-- Полная независимость от внешних технологий  
+- Main business entities and logic
+- Value objects, aggregates, repository interfaces
+- Domain events
+- Complete independence from external technologies
 
 ### Application Layer
 
-- Реализация бизнес-кейсов (use cases)  
-- Обработка команд и запросов (CQRS с MediatR)  
-- DTOs  
-- Интерфейсы к внешним сервисам (бот, база, логирование и др.)  
+- Implementation of business cases (use cases)
+- Processing commands and requests (CQRS with MediatR)
+- DTOs
+- Interfaces to external services (bot, database, logging, etc.)
+
+---  
 
 ### Infrastructure Layer
 
-- Реализация интерфейсов доступа к данным  
-- Интеграция с Telegram API  
-- Конфигурация приложения  
-- Репозитории, контексты и вспомогательные сервисы  
+- Implementation of data access interfaces
+- Integration with Telegram API
+- Application configuration
+- Repositories, contexts and auxiliary services
 
 ---
 
-## Требования
+## Requirements
 
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)  
-- SQL Server (или другая совместимая СУБД)  
-- Telegram Bot Token (если запускается с интеграцией)  
-
----
-
-## Запуск проекта
-
-1. Клонируйте репозиторий:
-
-    ```bash
-    git clone https://github.com/sazonov2703/DrugsBotRb.git
-    ```
-
-2. Перейдите в каталог проекта:
-
-    ```bash
-    cd DrugsBotRb
-    ```
-
-3. Обновите строку подключения в `appsettings.json`.
-
-4. Примените миграции:
-
-    ```bash
-    dotnet ef database update
-    ```
-
-5. Запустите проект:
-
-    ```bash
-    dotnet run
-    ```
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- SQL Server (or other compatible DBMS)
+- Telegram Bot Token (if launched with integration)
 
 ---
 
-## Архитектура
+## Starting the project
 
-- Слой **Domain** не зависит ни от чего — он определяет суть бизнес-логики.  
-- Слой **Application** зависит только от Domain и реализует все бизнес-сценарии.  
-- Слой **Infrastructure** реализует внешние зависимости и предоставляет доступ к данным, Telegram и т.д.  
-- Зависимости направлены строго внутрь.
+1. Clone the repository:
 
----
+```bash
+git clone https://github.com/sazonov2703/DrugsBotRb.git
+```
 
-## Контрибуция
+2. Go to the project directory:
 
-1. Форкните репозиторий  
-2. Создайте новую ветку:
+```bash
+cd DrugsBotRb
+```
 
-    ```bash
-    git checkout -b feature/название-фичи
-    ```
+3. Update the connection string in `appsettings.json`.
 
-3. Внесите изменения и закоммитьте:
+4. Apply migrations:
 
-    ```bash
-    git commit -m "Добавлена новая возможность"
-    ```
+```bash
+dotnet ef database update
+```
 
-4. Отправьте изменения:
+5. Run the project:
 
-    ```bash
-    git push origin feature/название-фичи
-    ```
-
-5. Создайте Pull Request в оригинальный репозиторий
+```bash
+dotnet run
+```
 
 ---
 
-🔗 Репозиторий: [github.com/sazonov2703/DrugsBotRb](https://github.com/sazonov2703/DrugsBotRb)
+## Architecture
+
+- The **Domain** layer does not depend on anything - it defines the essence of business logic.
+
+- The **Application** layer depends only on Domain and implements all business scenarios.
+
+- The **Infrastructure** layer implements external dependencies and provides access to data, Telegram, etc.
+
+- Dependencies are directed strictly inward.
+
+---
+
+## Contribute
+
+1. Fork the repository
+2. Create a new branch:
+
+```bash
+git checkout -b feature/feature-name
+```
+
+3. Make changes and commit:
+
+```bash
+git commit -m "Added new feature"
+```
+
+4. Submit changes:
+
+```bash
+git push origin feature/feature-name
+```
+
+5. Create a Pull Request to the original repository
+
+---
+
+🔗 Repository: [github.com/sazonov2703/DrugsBotRb](https://github.com/sazonov2703/DrugsBotRb)
